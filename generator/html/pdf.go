@@ -8,7 +8,9 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-func (h *HTML) PDF(parentCtx context.Context, url, filepath, filename, html string) ([]byte, error) {
+type PdfOptional func(*page.PrintToPDFParams) *page.PrintToPDFParams
+
+func (h *HTML) PDF(parentCtx context.Context, url, filepath, filename, html string, optional ...PdfOptional) ([]byte, error) {
 	// log the CDP messages so that you can find the one to use.
 	aCtx, aCancel := chromedp.NewRemoteAllocator(context.Background(), url)
 	defer aCancel()
@@ -47,15 +49,20 @@ func (h *HTML) PDF(parentCtx context.Context, url, filepath, filename, html stri
 			return nil
 		}),
 		chromedp.ActionFunc(func(ctx context.Context) error {
-			buf, _, err := page.PrintToPDF().
+			build := page.PrintToPDF().
 				WithDisplayHeaderFooter(true).
 				WithFooterTemplate(`<div style="font-size:8px;width:100%;text-align:center;">(<span class="pageNumber"></span> / <span class="totalPages"></span>)</div>`).
 				WithMarginBottom(0.4).
 				WithMarginRight(0.4).
 				WithMarginLeft(0.4).
 				WithMarginTop(0.4).
-				WithPrintBackground(false).
-				Do(ctx)
+				WithPrintBackground(false)
+
+			for _, o := range optional {
+				build = o(build)
+			}
+
+			buf, _, err := build.Do(ctx)
 			if err != nil {
 				return err
 			}

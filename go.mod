@@ -23,8 +23,10 @@ require (
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.13.0
 	github.com/stretchr/testify v1.8.0
+	github.com/xdg-go/scram v1.1.1
 	go.mongodb.org/mongo-driver v1.10.3
 	go.uber.org/dig v1.15.0
+	go.uber.org/zap v1.17.0
 	gopkg.in/DataDog/dd-trace-go.v1 v1.42.1
 	gopkg.in/go-playground/validator.v9 v9.31.0
 	gorm.io/plugin/soft_delete v1.2.0
@@ -52,6 +54,10 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/pierrec/lz4/v4 v4.1.17 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
+	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
+	github.com/xdg-go/stringprep v1.0.3 // indirect
+	go.uber.org/atomic v1.10.0 // indirect
+	go.uber.org/multierr v1.6.0 // indirect
 )
 
 require (

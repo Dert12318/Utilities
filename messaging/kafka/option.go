@@ -67,6 +67,15 @@ func validate(option option) error {
 	return nil
 }
 
+func getClientGeneratorFunc(mechanism sarama.SASLMechanism) func() sarama.SCRAMClient {
+	if mechanism == sarama.SASLTypeSCRAMSHA512 {
+		return func() sarama.SCRAMClient { return &XDGSCRAMClient{HashGeneratorFcn: SHA512} }
+	} else if mechanism == sarama.SASLTypeSCRAMSHA256 {
+		return func() sarama.SCRAMClient { return &XDGSCRAMClient{HashGeneratorFcn: SHA256} }
+	}
+	return nil
+}
+
 func getMechanism(option option) sarama.SASLMechanism {
 	if option.SASLMechanism == sarama.SASLTypeSCRAMSHA512 {
 		return sarama.SASLTypeSCRAMSHA512
