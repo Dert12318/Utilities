@@ -2,8 +2,8 @@ package html
 
 import (
 	"fmt"
+	"html/template"
 	"os"
-	"text/template"
 )
 
 type HTMLData struct {

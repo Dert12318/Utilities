@@ -71,6 +71,7 @@ func New(options ...Option) (messaging.Queue, error) {
 		cfg.Net.SASL.Enable = true
 		cfg.Net.SASL.User = option.Username
 		cfg.Net.SASL.Password = option.Password
+		cfg.Net.SASL.SCRAMClientGeneratorFunc = getClientGeneratorFunc(cfg.Net.SASL.Mechanism)
 	}
 
 	if len(l.Option.ClientID) > 0 {
