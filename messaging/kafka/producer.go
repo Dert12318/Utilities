@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/Dert12318/Utilities/apm"
-	tntContext "github.com/Dert12318/Utilities/context"
+	Context "github.com/Dert12318/Utilities/context"
 	"github.com/Dert12318/Utilities/messaging"
 )
 
@@ -24,7 +24,7 @@ type (
 	}
 )
 
-func (p *producer) Publish(ctx *tntContext.Context, topic string, msg messaging.Message) error {
+func (p *producer) Publish(ctx *Context.Context, topic string, msg messaging.Message) error {
 	//s := ctx.Transaction.StartMessageProducerSegment(apm.MessageProducerSegmentDTO{
 	//	Library:              "Kafka",
 	//	DestinationType:      apm.MessageTopic,

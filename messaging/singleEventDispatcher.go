@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	tntContext "github.com/Dert12318/Utilities/context"
+	Context "github.com/Dert12318/Utilities/context"
 	constantError "github.com/Dert12318/Utilities/errors"
 )
 
@@ -23,7 +23,7 @@ func (d *singleEventDispatcher) AddHandler(handler HandlerFunc, errorHandler Err
 func (d *singleEventDispatcher) Dispatch(dto DispatchDTO) error {
 	dto.Log.Debugf("RECEIVE[%v][%v] %v", dto.Msg.MsgID, dto.RequestID, string(dto.Msg.MsgData))
 	dispatch := applyMiddleware(d.dispatch, d.middlewares...)
-	return dispatch(tntContext.NewWithContext(context.Background()), dto)
+	return dispatch(Context.NewWithContext(context.Background()), dto)
 }
 
 func (d *singleEventDispatcher) Use(middlewareFunc ...MiddlewareFunc) {
@@ -38,10 +38,10 @@ func NewSingleEventDispatcher() Dispatcher {
 	}
 }
 
-func (d *singleEventDispatcher) dispatch(ctx *tntContext.Context, dto DispatchDTO) error {
+func (d *singleEventDispatcher) dispatch(ctx *Context.Context, dto DispatchDTO) error {
 	if ctx == nil {
 		c := context.Background()
-		ctx = tntContext.NewWithContext(c)
+		ctx = Context.NewWithContext(c)
 	}
 
 	if dto.Type == Handle {
@@ -50,14 +50,14 @@ func (d *singleEventDispatcher) dispatch(ctx *tntContext.Context, dto DispatchDT
 	return d.onError(ctx, dto.Msg, dto.Err)
 }
 
-func (d *singleEventDispatcher) handle(ctx *tntContext.Context, msg Message) error {
+func (d *singleEventDispatcher) handle(ctx *Context.Context, msg Message) error {
 	if d.handler == nil {
 		return constantError.MissingHandler
 	}
 	return d.handler(ctx, msg)
 }
 
-func (d *singleEventDispatcher) onError(ctx *tntContext.Context, msg Message, err error) error {
+func (d *singleEventDispatcher) onError(ctx *Context.Context, msg Message, err error) error {
 	if d.errorHandler == nil {
 		return constantError.MissingHandler
 	}

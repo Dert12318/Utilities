@@ -1,7 +1,7 @@
 package messaging
 
 import (
-	tntContext "github.com/Dert12318/Utilities/context"
+	Context "github.com/Dert12318/Utilities/context"
 )
 
 const PublishTime = "publish_time"
@@ -14,11 +14,11 @@ type (
 	}
 
 	Queue interface {
-		Ping(ctx *tntContext.Context) error
+		Ping(ctx *Context.Context) error
 		Listen()
 		Subscribe(topic string, dispatcher Dispatcher) error
 		Publish(topic string, msg Message) error
-		PublishWithContext(ctx *tntContext.Context, topic string, msg Message) error
+		PublishWithContext(ctx *Context.Context, topic string, msg Message) error
 		Close() error
 	}
 )

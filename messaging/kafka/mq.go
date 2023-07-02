@@ -8,7 +8,7 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/pkg/errors"
 
-	tntContext "github.com/Dert12318/Utilities/context"
+	Context "github.com/Dert12318/Utilities/context"
 	"github.com/Dert12318/Utilities/encoding"
 	jsoniter "github.com/Dert12318/Utilities/encoding/jsontier"
 	"github.com/Dert12318/Utilities/logs/logrus"
@@ -166,7 +166,7 @@ func (k *kafka) Publish(topic string, msg messaging.Message) error {
 	if k.Option.WithoutProducer {
 		return errors.New("kafka is initialize without producer")
 	}
-	ctx := tntContext.New()
+	ctx := Context.New()
 	ctx.Transaction = k.Option.Apm.StartTransaction(EventPublish)
 
 	asyncProducer, err := sarama.NewAsyncProducerFromClient(k.Client)
@@ -184,7 +184,7 @@ func (k *kafka) Publish(topic string, msg messaging.Message) error {
 	return producer.Publish(ctx, topic, msg)
 }
 
-func (k *kafka) PublishWithContext(ctx *tntContext.Context, topic string, msg messaging.Message) error {
+func (k *kafka) PublishWithContext(ctx *Context.Context, topic string, msg messaging.Message) error {
 	if k.Option.WithoutProducer {
 		return errors.New("kafka is initialize without producer")
 	}
@@ -223,7 +223,7 @@ func (k *kafka) Close() error {
 	return nil
 }
 
-func (k *kafka) Ping(ctx *tntContext.Context) error {
+func (k *kafka) Ping(ctx *Context.Context) error {
 	if k.consumer.listening {
 		return nil
 	}
